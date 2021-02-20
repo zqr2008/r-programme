@@ -1,0 +1,4 @@
+
+
+> newdata<-data[,c(55:69)]
+> subsetdata<-data[,c(1:5)]
