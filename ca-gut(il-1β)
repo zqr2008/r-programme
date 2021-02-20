@@ -3,7 +3,7 @@ library(memisc)
 data0 = as.data.set(spss.system.file("C:/Users/Meripet/Desktop/2020529.sav"))
 data = as.data.frame(data0)  # data即为所要的数据
 
-> newdata<-data[,c(55:69)]
+> newdata<-data[,c(54:61)]
 > subsetdata<-data[,c(1:5)]
 > mydata<-cbind(newdata,subsetdata)
 > mydata <- mydata[!apply(is.na(mydata) | mydata == "", 1, all),]
