@@ -1,25 +1,10 @@
+[0118/161835.174:ERROR:directory_reader_win.cc(43)] FindFirstFile: 系统找不到指定的路径。 (0x3)
 
-R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
-Copyright (C) 2020 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
 
-R是自由软件，不带任何担保。
-在某些条件下你可以将其自由散布。
-用'license()'或'licence()'来看散布的详细条件。
 
-R是个合作计划，有许多人为之做出了贡献.
-用'contributors()'来看合作者的详细情况
-用'citation()'会告诉你如何在出版物中正确地引用R或R程序包。
 
-用'demo()'来看一些示范程序，用'help()'来阅读在线帮助文件，或
-用'help.start()'通过HTML浏览器来看帮助文件。
-用'q()'退出R.
 
 > library(readxl)
-> dataset <- read_excel("C:\Users\mjdee\Desktop\傻几\哮喘病人相关数据收集(1).xlsx")
-错误: 由""C:\U"开头的字符串中有'\U'，它必需同hex数字一起来用
-> View(dataset)
-Error in View : 找不到对象'dataset'
 > dataset <- read_excel("C:/Users/mjdee/Desktop/傻几/哮喘病人相关数据收集(1).xlsx")
 New names:
 * `` -> ...14
@@ -28,209 +13,19 @@ New names:
 * `` -> ...17
 * `` -> ...18
 * ...
-> View(dataset)
-> data1<dataset[,c(3,4,5,8,21,23,26,27,28,39,40,41,42,45),c(50:59),c(92,93)]
-错误: 找不到对象'data1'
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,28,39,40,41,42,45),c(50:59),c(92,93)]
-> View(data1)
-> fix(data1)
-Warning messages:
-1: In makeRestartList(...) : 强制改变过程中产生了NA
-2: In edit.data.frame(get(subx, envir = parent), title = subx, ...) :
-  强制改变过程中产生了NA
-3: In makeRestartList(...) : 强制改变过程中产生了NA
-4: In edit.data.frame(get(subx, envir = parent), title = subx, ...) :
-  强制改变过程中产生了NA
-5: In makeRestartList(...) : 强制改变过程中产生了NA
-6: In edit.data.frame(get(subx, envir = parent), title = subx, ...) :
-  强制改变过程中产生了NA
-7: In makeRestartList(...) : 强制改变过程中产生了NA
-8: In edit.data.frame(get(subx, envir = parent), title = subx, ...) :
-  强制改变过程中产生了NA
-9: In makeRestartList(...) : 强制改变过程中产生了NA
-10: In edit.data.frame(get(subx, envir = parent), title = subx, ...) :
-  强制改变过程中产生了NA
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,28,39,40,41,42,45),c(50:59),c(92,93)]
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,28,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,92,93)]
-> fix(data1)
-There were 26 warnings (use warnings() to see them)
-> mydata1<-data1
-> dataset2<-read_excel("C:/Users/mjdee/Desktop/傻几/哮喘病人相关数据收集(2).xlsx")
-New names:
-* 肺功能 -> 肺功能...4
-* `` -> ...5
-* 肺功能 -> 肺功能...8
-* `` -> ...147
-* `` -> ...148
-* ...
-> View(dataset2)
-> data1<-data1[,-c(9)]
-> View(dataset)
-> View(data1)
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,28,36,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> fix(data1)
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,28,36,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,36,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> fix(data1)
-> fix(dataset)
-> fix(dataset)
-There were 37 warnings (use warnings() to see them)
-> fix(dataset)
-There were 18 warnings (use warnings() to see them)
-> data1<-dataset[,c(3,4,5,8,21,23,26,27,36,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> View(data1)
-> fix(dataset)
-> data1<-dataset[,c(3,4,5,8,21,22,23,26,27,36,39,40,41,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> View(data1)
 > data1<-dataset[,c(3,4,5,8,21,22,23,26,27,36,42,45,50,51,52,53,54,55,56,57,58,59,82,92,93)]
-> library(haven)
-> dataset2<-read_sav("C:/Users/mjdee/Desktop/傻几/15和19共两批病例数据库-全.sav")
-Error in df_parse_sav_file(spec, encoding, user_na, cols_skip, n_max,  : 
-  Failed to parse C:/Users/mjdee/Desktop/傻几/15和19共两批病例数据库-全.sav: File has an unsupported character set.
-> library(memisc)
-载入需要的程辑包：lattice
-载入需要的程辑包：MASS
-
-载入程辑包：‘memisc’
-
-The following objects are masked from ‘package:stats’:
-
-    contr.sum, contr.treatment, contrasts
-
-The following object is masked from ‘package:base’:
-
-    as.array
-
-Warning message:
-程辑包‘MASS’是用R版本4.0.4 来建造的 
-> mydataset2= as.data.set(spss.system.file("C:/Users/mjdee/Desktop/傻几/15和19共两批病例数据库-全.sav"))
-Error in h(simpleError(msg, call)) : 
-  在为'as.data.set'函数选择方法时评估'x'参数出了错: not a SysFile 
-> mydataset2= as.data.frame(mydataset2) 
-Error in as.data.frame(mydataset2) : 找不到对象'mydataset2'
-> library(memisc)
-> data0 = as.data.set(spss.system.file("C:/Users/mjdee/Desktop/傻几/15和19共两批病例数据库-全.sav"))
-Error in h(simpleError(msg, call)) : 
-  在为'as.data.set'函数选择方法时评估'x'参数出了错: not a SysFile 
-> data = as.data.frame(data0) 
-Error in as.data.frame(data0) : 找不到对象'data0'
-> library(memisc)
-> data0 = as.data.set(spss.system.file("C:/Users/mjdee/Desktop/meripet/result2_dataset.sav"))
-File character set is 'UTF-8'.
-Converting character set to the local 'cp936'.
-Warning message:
-In strsplit(longVariableNames, "\t") : 输入的字符串1不适用于此语言环境
-> data = as.data.frame(data0) 
-Error in make.names(vnames, unique = TRUE) : 多字节字符串11有错
-收捲时出错: '<86>'多字节字符串有错
-Error: no more error handlers available (recursive errors?); invoking 'abort' restart
-> View(data0)
-> View(data0)
-> View(data0)
-> View(data0)
-> fix(data0)
- Error in validObject(.Object) : 
-  invalid class “named.list” object: list is unnamed 
-> dataset2<-read_sav("C:/Users/mjdee/Desktop/meripet/result2_dataset.sav")
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> View(dataset2)
-> dataset2<-read.csv(file = "C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-Error in make.names(col.names, unique = TRUE) : 多字节字符串19有错
-> dataset2<-read_excel(file = "C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-Error in read_excel(file = "C:/Users/mjdee/Desktop/meripet/result2_dataset.csv") : 
-  参数没有用(file = "C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-> View(dataset2)
-> library(haven)
-> result2_dataset <- read_sav("C:/Users/mjdee/Desktop/meripet/result2_dataset.sav")
-> View(result2_dataset)
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> fix(result2_dataset)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
-> dataset2<-result2_dataset
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> fix(dataset2)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
-> data2<-dataset2[,c(3,7,6)]
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> View(data2)
-> data2<-dataset2[,c(3,7,6,10,12,14,15,44,33,37,21,22,23,25,26,29)]
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> View(data2)
-> data1<-(,-c(13:16))
-错误: 意外的',' in "data1<-(,"
-> data1<-data1[,-c(13:16)]
-> fix(data2)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
 > data1<-data1[,-c(19:21)]
 > data1<-data1[,-c(5:6)]
-> fix(data2)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
-> data2<-subset(data2,)
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> fix(data2)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
-> edit(data2)
-Error in edit.data.frame(data2) : 只能对向量和因子元素适用
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> fix(data2$age)
-Error in fix(data2$age) : 'fix'需要名字值
-> fix(data1)
-> fix(data2)
-Error in edit.data.frame(get(subx, envir = parent), title = subx, ...) : 
-  只能对向量和因子元素适用
-> rename(data2, c(sex="gender", bmi="BMI"))
-# A tibble: 193 x 16
-   ID        age       sex   bmi  Smoking   ACT ACTgrade  FENO 嗜酸性粒细胞绝对值~   IgE
-   <chr>   <dbl> <dbl+lbl> <dbl> <dbl+lb> <dbl> <dbl+lb> <dbl>            <dbl> <dbl>
- 1 ""         34  2 [fema~  26.7 NA          NA NA             NA            NA     68.7
- 2 "C0000~    50  2 [fema~  25.7  3 [nev~    NA NA             NA            NA    155. 
- 3 ""         51  2 [fema~  28.1  3 [nev~    NA NA             NA            NA     NA  
- 4 "00038~    58  1 [male]  25.4  3 [nev~    NA NA             NA            NA     NA  
- 5 "00052~    78  2 [fema~  20.8  3 [nev~    NA NA             NA             0.82  NA  
- 6 ""         NA NA         NA   NA          NA NA             NA            NA     NA  
- 7 "00112~    52  2 [fema~  30.8  3 [nev~    21  1 [完全控~    NA            NA     24.9
- 8 "00056~    66  2 [fema~  27.4  3 [nev~    19  2 [良好控~    NA             0.07  NA  
- 9 "00107~    61  1 [male]  24.1 NA          21  1 [完全控~    NA             0.2   NA  
-10 "00106~    29  2 [fema~  22.3  3 [nev~    16  2 [良好控~    NA             0.05  NA  
-# ... with 183 more rows, and 6 more variables: FEV1药前实测值 <dbl>,
-#   FEV1预计值 <dbl>, FEV1药后值 <dbl>, FEV1药后除以预计 <dbl>,
-#   FEV1FVC药前实测值 <dbl>, FEV1FVC药后 <dbl>
+
+
+> library(haven)
+> result2_dataset <- read_sav("C:/Users/mjdee/Desktop/meripet/result2_dataset.sav")
+> dataset2<-result2_dataset
+ ‘memisc’
 > View(data2)
-> data2
-# A tibble: 193 x 16
-   ID        age       sex   bmi  Smoking   ACT ACTgrade  FENO 嗜酸性粒细胞绝对值~   IgE
-   <chr>   <dbl> <dbl+lbl> <dbl> <dbl+lb> <dbl> <dbl+lb> <dbl>            <dbl> <dbl>
- 1 ""         34  2 [fema~  26.7 NA          NA NA             NA            NA     68.7
- 2 "C0000~    50  2 [fema~  25.7  3 [nev~    NA NA             NA            NA    155. 
- 3 ""         51  2 [fema~  28.1  3 [nev~    NA NA             NA            NA     NA  
- 4 "00038~    58  1 [male]  25.4  3 [nev~    NA NA             NA            NA     NA  
- 5 "00052~    78  2 [fema~  20.8  3 [nev~    NA NA             NA             0.82  NA  
- 6 ""         NA NA         NA   NA          NA NA             NA            NA     NA  
- 7 "00112~    52  2 [fema~  30.8  3 [nev~    21  1 [完全控~    NA            NA     24.9
- 8 "00056~    66  2 [fema~  27.4  3 [nev~    19  2 [良好控~    NA             0.07  NA  
- 9 "00107~    61  1 [male]  24.1 NA          21  1 [完全控~    NA             0.2   NA  
-10 "00106~    29  2 [fema~  22.3  3 [nev~    16  2 [良好控~    NA             0.05  NA  
-# ... with 183 more rows, and 6 more variables: FEV1药前实测值 <dbl>,
-#   FEV1预计值 <dbl>, FEV1药后值 <dbl>, FEV1药后除以预计 <dbl>,
-#   FEV1FVC药前实测值 <dbl>, FEV1FVC药后 <dbl>
+> data2<-dataset2[,c(3,7,6,10,12,14,15,44,33,37,21,22,23,25,26,29)]
+
+
 > names(data2)[3] <- "gender"
 Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
 Also defined by ‘memisc’
@@ -259,210 +54,17 @@ Also defined by ‘memisc’
 Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
 Also defined by ‘memisc’
 > names(data2)[16] <- "FEV1overFVC(after)"
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> total <- rbind(data1, data2)
-Error in match.names(clabs, names(xi)) : 名字同原来已有的名字不相对
-> str(data1)
-'data.frame':	60 obs. of  16 variables:
- $ ID                : chr  NA "000610652600" "001625726900" "001867103500" ...
- $ age               : num  NA 50 36 31 45 55 61 49 48 38 ...
- $ gender            : chr  NA "男" "男" "男" ...
- $ BMI               : num  NA 25.2 26 21.1 NA ...
- $ smoking           : chr  "年数" "0" "0" "0" ...
- $ ACT               : num  NA 16 15 15 9 10 15 12 9 NA ...
- $ ACTgrade          : logi  NA NA NA NA NA NA ...
- $ FENO              : num  NA 72 NA 248 NA NA 58 103 217 NA ...
- $ E                 : num  NA 0.49 NA 0.82 0.23 0.49 0.13 0.6 0.08 NA ...
- $ igE               : num  NA 306 NA 199 448 89.3 7.98 41.7 204 449 ...
- $ FEV1_actual       : num  NA 3.76 NA 4.03 NA 2.38 3.13 2.86 2.63 NA ...
- $ FEV1pred          : num  NA 101 NA 100 NA ...
- $ FEV1(after)       : num  NA 3.8 NA 3.63 NA NA 3.37 2.85 2.67 NA ...
- $ FEV1_pred(after)  : num  NA 102.2 NA 90.7 NA ...
- $ FEV1overFVC       : num  NA 71.8 NA 89.8 NA ...
- $ FEV1overFVC(after): num  NA 70.5 NA 83.5 NA ...
-> str(data2)
-tibble [193 x 16] (S3: tbl_df/tbl/data.frame)
- $ ID                : chr [1:193] "" "C00006440700" "" "000384615800" ...
-  ..- attr(*, "format.spss")= chr "A12"
-  ..- attr(*, "display_width")= int 12
- $ age               : num [1:193] 34 50 51 58 78 NA 52 66 61 29 ...
-  ..- attr(*, "format.spss")= chr "F8.0"
-  ..- attr(*, "display_width")= int 5
- $ gender            : dbl+lbl [1:193]  2,  2,  2,  1,  2, NA,  2,  2,  1,  2,  2,  1,  2,  2,  1,...
-   ..@ format.spss  : chr "F8.2"
-   ..@ display_width: int 4
-   ..@ labels       : Named num [1:2] 1 2
-   .. ..- attr(*, "names")= chr [1:2] "male" "female"
- $ BMI               : num [1:193] 26.7 25.7 28.1 25.4 20.8 ...
-  ..- attr(*, "format.spss")= chr "F8.2"
-  ..- attr(*, "display_width")= int 5
- $ smoking           : dbl+lbl [1:193] NA,  3,  3,  3,  3, NA,  3,  3, NA,  3,  3,  1,  3,  3,  3,...
-   ..@ format.spss: chr "F8.2"
-   ..@ labels     : Named num [1:3] 1 2 3
-   .. ..- attr(*, "names")= chr [1:3] "current" "ever" "never"
- $ ACT               : num [1:193] NA NA NA NA NA NA 21 19 21 16 ...
-  ..- attr(*, "format.spss")= chr "F8.2"
-  ..- attr(*, "display_width")= int 6
- $ ACTgrade          : dbl+lbl [1:193] NA, NA, NA, NA, NA, NA,  1,  2,  1,  2,  3,  2,  1,  3,  1,...
-   ..@ format.spss: chr "F8.2"
-   ..@ labels     : Named num [1:3] 1 2 3
-   .. ..- attr(*, "names")= chr [1:3] "完全控制" "良好控制" "控制很差"
- $ FENO              : num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ E                 : num [1:193] NA NA NA NA 0.82 NA NA 0.07 0.2 0.05 ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ IgE               : num [1:193] 68.7 155.1 NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1_actual       : num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1pred          : num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1(after)       : num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1_pred(after)  : num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1overFVC       : num [1:193] 78.1 75.7 52.6 67.2 51 ...
-  ..- attr(*, "format.spss")= chr "F8.2"
- $ FEV1overFVC(after): num [1:193] NA NA NA NA NA NA NA NA NA NA ...
-  ..- attr(*, "format.spss")= chr "F8.2"
+
 > write.csv(data2, file="C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-> write.csv(data1, file="C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-> write.csv(data2, file="C:/Users/mjdee/Desktop/meripet/result2_dataset.csv")
-> write.csv(data1, file="C:\Users\mjdee\Desktop\meripet\result1_dataset.csv")
-错误: 由""C:\U"开头的字符串中有'\U'，它必需同hex数字一起来用
 > write.csv(data1, file="C:/Users/mjdee/Desktop/meripet/result1_dataset.csv")
+
 > library(readxl)
 > total<- read_excel("C:/Users/mjdee/Desktop/meripet/total_data.xlsx")
-New names:
-* `` -> ...1
-> 
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> View(total)
-> fix(total)
-There were 22 warnings (use warnings() to see them)
-> total$gender = (total$gender,c(1,2),labels = c("male", "female"))
-错误: 意外的',' in "total$gender = (total$gender,"
-> total$gender = (total$gender,levels=c(1,2),labels = c("male", "female"))
-错误: 意外的',' in "total$gender = (total$gender,"
-> total$gender = factor(total$gender,levels=c(1,2),labels = c("male", "female"))
-> fix(total)
-> total$gender《- factor(total$gender,levels=c(1,2),labels = c("male", "female"))
-错误: unexpected input in "total$gender《"
-> total$gender<- factor(total$gender,levels=c(1,2),labels = c("male", "female"))
-> total<- read_excel("C:/Users/mjdee/Desktop/meripet/total_data.xlsx")
-New names:
-* `` -> ...1
-Found more than one class "tbl_df" in cache; using the first, from namespace 'tibble'
-Also defined by ‘memisc’
-> fix(total)
-There were 20 warnings (use warnings() to see them)
-> total$gender <- factor(total$gender,levels=c(1,2),labels = c("male", "female"))
+
+
 > total$smoking = factor(total$smoking,levels=c(1,0),labels = c("smoking", "no smoking"))
-> options(repos=structure(c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))) 
-> 
-> install.packages("compareGroups")
-WARNING: Rtools is required to build R packages but is not currently installed. Please download and install the appropriate version of Rtools before proceeding:
 
-https://cran.rstudio.com/bin/windows/Rtools/
-Installing package into ‘C:/Users/mjdee/Documents/R/win-library/4.0’
-(as ‘lib’ is unspecified)
-also installing the dependencies ‘broom’, ‘truncnorm’, ‘selectr’, ‘systemfonts’, ‘mice’, ‘Rsolnp’, ‘rvest’, ‘webshot’, ‘svglite’, ‘uuid’, ‘gdtools’, ‘zip’, ‘HardyWeinberg’, ‘kableExtra’, ‘writexl’, ‘flextable’, ‘officer’
 
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/broom_0.7.5.zip'
-Content type 'application/zip' length 1787678 bytes (1.7 MB)
-downloaded 1.7 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/truncnorm_1.0-8.zip'
-Content type 'application/zip' length 45087 bytes (44 KB)
-downloaded 44 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/selectr_0.4-2.zip'
-Content type 'application/zip' length 495887 bytes (484 KB)
-downloaded 484 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/systemfonts_1.0.1.zip'
-Content type 'application/zip' length 2014573 bytes (1.9 MB)
-downloaded 1.9 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/mice_3.13.0.zip'
-Content type 'application/zip' length 2023893 bytes (1.9 MB)
-downloaded 1.9 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/Rsolnp_1.16.zip'
-Content type 'application/zip' length 251423 bytes (245 KB)
-downloaded 245 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/rvest_0.3.6.zip'
-Content type 'application/zip' length 1513007 bytes (1.4 MB)
-downloaded 1.4 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/webshot_0.5.2.zip'
-Content type 'application/zip' length 145132 bytes (141 KB)
-downloaded 141 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/svglite_2.0.0.zip'
-Content type 'application/zip' length 1157757 bytes (1.1 MB)
-downloaded 1.1 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/uuid_0.1-4.zip'
-Content type 'application/zip' length 33765 bytes (32 KB)
-downloaded 32 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/gdtools_0.2.3.zip'
-Content type 'application/zip' length 3721862 bytes (3.5 MB)
-downloaded 3.5 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/zip_2.1.1.zip'
-Content type 'application/zip' length 1119006 bytes (1.1 MB)
-downloaded 1.1 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/HardyWeinberg_1.7.1.zip'
-Content type 'application/zip' length 1936528 bytes (1.8 MB)
-downloaded 1.8 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/kableExtra_1.3.4.zip'
-Content type 'application/zip' length 1853315 bytes (1.8 MB)
-downloaded 1.8 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/writexl_1.3.1.zip'
-Content type 'application/zip' length 286080 bytes (279 KB)
-downloaded 279 KB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/flextable_0.6.3.zip'
-Content type 'application/zip' length 1185407 bytes (1.1 MB)
-downloaded 1.1 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/officer_0.3.16.zip'
-Content type 'application/zip' length 1469066 bytes (1.4 MB)
-downloaded 1.4 MB
-
-试开URL’https://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/windows/contrib/4.0/compareGroups_4.4.6.zip'
-Content type 'application/zip' length 3515843 bytes (3.4 MB)
-downloaded 3.4 MB
-
-package ‘broom’ successfully unpacked and MD5 sums checked
-package ‘truncnorm’ successfully unpacked and MD5 sums checked
-package ‘selectr’ successfully unpacked and MD5 sums checked
-package ‘systemfonts’ successfully unpacked and MD5 sums checked
-package ‘mice’ successfully unpacked and MD5 sums checked
-package ‘Rsolnp’ successfully unpacked and MD5 sums checked
-package ‘rvest’ successfully unpacked and MD5 sums checked
-package ‘webshot’ successfully unpacked and MD5 sums checked
-package ‘svglite’ successfully unpacked and MD5 sums checked
-package ‘uuid’ successfully unpacked and MD5 sums checked
-package ‘gdtools’ successfully unpacked and MD5 sums checked
-package ‘zip’ successfully unpacked and MD5 sums checked
-package ‘HardyWeinberg’ successfully unpacked and MD5 sums checked
-package ‘kableExtra’ successfully unpacked and MD5 sums checked
-package ‘writexl’ successfully unpacked and MD5 sums checked
-package ‘flextable’ successfully unpacked and MD5 sums checked
-package ‘officer’ successfully unpacked and MD5 sums checked
-package ‘compareGroups’ successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-	C:\Users\mjdee\AppData\Local\Temp\RtmpEVJVqB\downloaded_packages
 > library(compareGroups)
 Warning message:
 程辑包‘compareGroups’是用R版本4.0.4 来建造的 
@@ -524,17 +126,9 @@ In compareGroups.fit(X = X, y = y, include.label = include.label,  :
 > shapiro.test(total$age,total$BMI,total$ACT,total$FENO,total$E,total$IgE,total$FEV1_actual,total$FEV1pred,total$FEV1(after),total$FEV1_pred(after))
 Error in shapiro.test(total$age, total$BMI, total$ACT, total$FENO, total$E,  : 
   参数没有用(total$BMI, total$ACT, total$FENO, total$E, total$IgE, total$FEV1_actual, total$FEV1pred, total$FEV1(after), total$FEV1_pred(after))
-> shapiro.test(total$age)
 
-	Shapiro-Wilk normality test
 
-data:  total$age
-W = 0.96297, p-value = 5.317e-06
 
-> descrTable(gender~.,data=total,method  = c(age=2,BMI=2,ACT=2,FENO=2,E=2,IgE=2,FEV1_actual=2,FEV1pred=2,FEV1(after)=2,FEV1_pred(after)=2))
-错误: 意外的'=' in "descrTable(gender~.,data=total,method  = c(age=2,BMI=2,ACT=2,FENO=2,E=2,IgE=2,FEV1_actual=2,FEV1pred=2,FEV1(after)="
-> descrTable(gender~.,data=total,method  = c(age=NA,BMI=NA,ACT=NA,FENO=NA,E=NA,IgE=NA,FEV1_actual=NA,FEV1pred=NA,FEV1(after)=NA,FEV1_pred(after)=NA))
-错误: 意外的'=' in "descrTable(gender~.,data=total,method  = c(age=NA,BMI=NA,ACT=NA,FENO=NA,E=NA,IgE=NA,FEV1_actual=NA,FEV1pred=NA,FEV1(after)="
 > descrTable(gender~.,data=total,method  = c(age=NA,BMI=NA,ACT=NA,FENO=NA,E=NA,IgE=NA,FEV1_actual=NA,FEV1pred=NA))
 
 --------Summary descriptives table by 'gender'---------
