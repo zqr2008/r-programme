@@ -1,4 +1,4 @@
- ggbetweenstats(
+ pic1<-ggbetweenstats(
           data = mydata2,  # 数据集 
           x = sex, # 分组变量 
           y = PC38.6,  # 目标变量 
@@ -13,3 +13,7 @@
           ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
           package = "wesanderson", # package from which color palette is to be taken
           palette = "Darjeeling1") # choosing a different color palette
+          
+          
+pic1 = pic1 + theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 18))
