@@ -40,3 +40,24 @@ pic3<-ggbetweenstats(
  
  pic3 = pic3 + theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 10),
                     axis.title.y = element_text(family = "TNM", face = "bold", size = 10))
+                    
+                    
+  pic20<-ggbetweenstats(
+     data = mydata2,  # 数据集 
+     x = sex, # 分组变量 
+     y = SM36.0,  # 目标变量 
+     type = 'p', # p是参数检验，np是非参数检验 
+     plot.type = 'boxviolin', # 还可以是，violin小提琴图，boxviolin二者叠加 
+     xlab = '性别分组', 
+     ylab = '不同性别SM36.0水平', 
+     pairwise.comparisons = T, #如果有多组的话，T可以直接显示组间比较的结果 
+     pairwise.display = 'all', #显示组间比较有差异的，ns是显示没有差异的 
+     p.adjust.method = 'bonferroni', #组间两两比较的p值校正的方法，如bonferroni 
+    ggtheme = ggthemes::theme_fivethirtyeight(),
+     ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
+     package = "wesanderson", # package from which color palette is to be taken
+     palette = "Darjeeling1") # choosing a different color palette
+ 
+pic20 = pic20 + theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 10),
+                     axis.title.y = element_text(family = "TNM", face = "bold", size = 10))
+> pic20
