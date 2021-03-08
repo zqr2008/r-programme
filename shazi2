@@ -20,5 +20,6 @@ for(i in seq(0.5 , 30 , 2)){
   }
 
 
-ggplot(PCmeltr, aes(x=variable, y=value, fill=sex)) + 
-+     geom_boxplot()
+pic1<-ggplot(PCmeltr, aes(x=variable, y=value, fill=sex)) + 
+         geom_boxplot()+xlab("鞘脂PC种类")+ylab("鞘脂PC水平") + 
+         theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), axis.title.y = element_text(family = "TNM", face = "bold", size = 18))
