@@ -20,3 +20,14 @@ pic1<-ggplot(PCmelt, aes(x=variable, y=value, fill=性别)) +
      geom_boxplot()+xlab("鞘脂PC种类")+ylab("鞘脂PC水平") + 
      theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), 
      axis.title.y = element_text(family = "TNM", face = "bold", size = 18))+ scale_fill_manual(values = wes_palette("Royal1"))
+     
+ pic1 + theme(axis.line = element_line(size = 0.5, 
+     linetype = "solid"), axis.title = element_text(family = "serif"), 
+     axis.text = element_text(family = "serif", 
+         face = "bold"), axis.text.x = element_text(family = "serif", 
+         size = 13), axis.text.y = element_text(family = "serif", 
+         size = 13), plot.title = element_text(family = "serif"), 
+     legend.text = element_text(size = 18, 
+         face = "bold", family = "serif"), 
+     legend.title = element_text(size = 18, 
+         face = "bold", family = "serif"))
