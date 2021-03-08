@@ -1,3 +1,10 @@
+library(wesanderson)
+library(compareGroups)
+library(ggplot2)
+library(ggstatsplot)
+library(patchwork)
+library(ggthemes)
+library(haven)
 
 df<-read_sav("C:/Users/Meripet/Desktop/毕业论文/songzhu's_data.sav")
 windowsFonts(TNM = windowsFont("Times New Roman"))
