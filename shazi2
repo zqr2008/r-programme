@@ -1,0 +1,20 @@
+> attach(PCmelt)
+> ind <- (value > quantile(value, 0.01)) & (value < quantile(value, 0.99))
+> detach()
+> 
+> PCmeltr<-PCmelt[ind,]
+
+
+myplot <- boxplot(value ~ variable*sex , data=PCmeltr, 
+                                                        boxwex=0.4 , ylab="PCvalue",
+                                                        main="不同PC鞘脂在性别中分布" , 
+                                                        col=c("slateblue1" , "tomato") ,  
+                                                        xaxt="n")
+                                                        
+legend("topright", legend = c("男", "女"), 
+       col=c("slateblue1" , "tomato"),
+       pch = 15, bty = "n", pt.cex = 3, cex = 1.2,  horiz = F, inset = c(0.01,0.01))
+
+for(i in seq(0.5 , 30 , 2)){ 
+  abline(v=i,lty=1, col="grey")
+  }
