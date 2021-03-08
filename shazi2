@@ -5,6 +5,7 @@ df$sex<-factor(df$sex,levels = c("1","2"),labels = c("男","女"))
 names(df)[5] <- "性别"
 
 PC<-df[,c(1,5,99:116)]
+PC <- PC[!apply(is.na(PC) | PC == "", 1, all),]
 library(reshape2)
 PCmelt<-melt(PC,id=c("code","性别"))
 PCmelt <- PCmelt[!apply(is.na(PCmelt) | PCmelt == "", 1, all),]
