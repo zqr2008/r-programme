@@ -1,23 +1,18 @@
-> attach(PCmelt)
-> ind <- (value > quantile(value, 0.01)) & (value < quantile(value, 0.99))
-> detach()
-> 
-> PCmeltr<-PCmelt[ind,]
+
+df<-read_sav("C:/Users/Meripet/Desktop/毕业论文/songzhu's_data.sav")
+
+df$sex<-factor(df$sex,levels = c("1","2"),labels = c("男","女"))
+names(df)[5] <- "性别"
+
+PC<-df[,c(1,5,99:116)]
+library(reshape2)
+PCmelt<-melt(PC,id=c("code","性别"))
 
 
-myplot <- boxplot(value ~ variable*sex , data=PCmeltr, 
-                                                        boxwex=0.4 , ylab="PCvalue",
-                                                        main="不同PC鞘脂在性别中分布" , 
-                                                        col=c("slateblue1" , "tomato") ,  
-                                                        xaxt="n")
-                                                        
-legend("topright", legend = c("男", "女"), 
-       col=c("slateblue1" , "tomato"),
-       pch = 15, bty = "n", pt.cex = 3, cex = 1.2,  horiz = F, inset = c(0.01,0.01))
-
-for(i in seq(0.5 , 30 , 2)){ 
-  abline(v=i,lty=1, col="grey")
-  }
+attach(PCmelt)
+ind <- (value > quantile(value, 0.01)) & (value < quantile(value, 0.99))
+detach()
+PCmeltr<-PCmelt[ind,]
 
 pic1<-ggplot(PCmeltr, aes(x=variable, y=value, fill=sex)) + 
      geom_boxplot()+xlab("鞘脂PC种类")+ylab("鞘脂PC水平") + 
