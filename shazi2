@@ -1,5 +1,6 @@
 
 df<-read_sav("C:/Users/Meripet/Desktop/毕业论文/songzhu's_data.sav")
+windowsFonts(TNM = windowsFont("Times New Roman"))
 
 df$sex<-factor(df$sex,levels = c("1","2"),labels = c("男","女"))
 names(df)[5] <- "性别"
