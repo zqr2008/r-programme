@@ -1,3 +1,6 @@
+ windowsFonts(TNM = windowsFont(“Times New Roman”))
+ 
+ 
  pic1<-ggbetweenstats(
           data = mydata2,  # 数据集 
           x = sex, # 分组变量 
