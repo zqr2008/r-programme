@@ -1,3 +1,9 @@
+library(compareGroups)
+library(ggplot2)
+library(ggstatsplot)
+library(patchwork)
+
+ 
  descrTable(sex ~ .,data = mydata2,  method =  NA) 
  
  
