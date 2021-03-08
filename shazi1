@@ -1,3 +1,8 @@
+ descrTable(sex ~ .,data = mydata2,  method =  NA) 
+ 
+ 
+ 
+ 
  windowsFonts(TNM = windowsFont(“Times New Roman”))
  
  
