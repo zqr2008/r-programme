@@ -19,7 +19,7 @@ for(i in seq(0.5 , 30 , 2)){
   abline(v=i,lty=1, col="grey")
   }
 
-
 pic1<-ggplot(PCmeltr, aes(x=variable, y=value, fill=sex)) + 
-         geom_boxplot()+xlab("鞘脂PC种类")+ylab("鞘脂PC水平") + 
-         theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), axis.title.y = element_text(family = "TNM", face = "bold", size = 18))
+     geom_boxplot()+xlab("鞘脂PC种类")+ylab("鞘脂PC水平") + 
+     theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), 
+     axis.title.y = element_text(family = "TNM", face = "bold", size = 18))+ scale_fill_manual(values = wes_palette("Royal1"))
