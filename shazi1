@@ -10,7 +10,7 @@ library(ggthemes)
  
  
  
- windowsFonts(TNM = windowsFont(“Times New Roman”))
+ windowsFonts(TNM = windowsFont("Times New Roman"))
  
  
  pic1<-ggbetweenstats(
