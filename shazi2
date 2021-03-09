@@ -5,6 +5,7 @@ library(ggstatsplot)
 library(patchwork)
 library(ggthemes)
 library(haven)
+library(reshape2)
 
 df<-read_sav("C:/Users/Meripet/Desktop/毕业论文/songzhu's_data.sav")
 windowsFonts(TNM = windowsFont("Times New Roman"))
