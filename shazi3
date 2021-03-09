@@ -1,0 +1,39 @@
+
+
+
+M15_F27_20210116_ <- read_sav("D:/傻几/宋祝课题/M15 F27 (20210116).sav")
+mydata<-M15_F27_20210116_ 
+
+library(dplyr)
+
+
+mydatamale<-filter(mydata, sex == "1")
+mydatafemale<-filter(mydata, sex == "2")
+
+ggstatsplot::ggcorrmat(
+  data = mydatamale,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "none", # p-value adjustment method for multiple comparisons
+  cor.vars = c("雌二醇E2","睾酮T","孕酮P","雄烯二酮","IL5","IL13","IL10","IFNY","IL17A","IL4"), 
+  colors = c("#2d69b0","white","#f02721"),
+  matrix.type = "full", # type of visualization matrix
+  title = "性激素与炎症因子相关性图",
+  subtitle = "在女性性中相关性"
+)
+
+
+
+
+
+ggstatsplot::ggcorrmat(
+  data = mydatafemale,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "none", # p-value adjustment method for multiple comparisons
+  cor.vars = c("雌二醇E2","睾酮T","孕酮P","雄烯二酮","IL5","IL13","IL10","IFNY","IL17A","IL4"), 
+  colors = c("#2d69b0","white","#f02721"),
+  matrix.type = "full", # type of visualization matrix
+  title = "性激素与炎症因子相关性图",
+  subtitle = "在女性性中相关性"
+)
