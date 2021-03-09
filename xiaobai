@@ -13,9 +13,10 @@ ggstatsplot::ggcorrmat(
     "IS0h", # variable names
     "PS0h","HA0h","PCS0h","PAGLN0h","IL1β0h","IL180h","LPS0h"
   ),
+  colors = NULL,
+  palette = "Rushmore1",
+  package = "wesanderson",
   matrix.type = "upper", # type of visualization matrix
-   package = "wesanderson",
-   palette = "GrandBudapest1",
   title = "炎症因子与肠道毒素相关性图",
   subtitle = "0h相关性"
 )
