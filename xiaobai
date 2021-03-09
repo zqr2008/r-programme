@@ -20,3 +20,15 @@ pic5<-ggstatsplot::ggcorrmat(
 )
 
 
+
+pic1<-ggstatsplot::ggcorrmat(
+  data = data,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "none", # p-value adjustment method for multiple comparisons
+  cor.vars = c(IS0h,PS0h,HA0h,PCS0h,PAGLN0h,IL1β0h,IL180h,LPS0h), # a range of variables can be selected
+  colors = c("#2d69b0","white","#f02721"),
+  matrix.type = "full", # type of visualization matrix
+  title = "炎症因子与肠道毒素相关性图",
+  subtitle = "0h相关性"
+)
