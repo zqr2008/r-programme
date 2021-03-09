@@ -1,0 +1,21 @@
+data0 = as.data.set(spss.system.file("C:/Users/Meripet/Desktop/2020529.sav"))
+
+data = as.data.frame(data0)
+
+
+ggstatsplot::ggcorrmat(
+  data = data,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "holm", # p-value adjustment method for multiple comparisons
+  cor.vars = c(IS0h,PS0h,HA0h,PCS0h,PAGLN0h,IL1β0h,IL180h,LPS0h), # a range of variables can be selected
+  cor.vars.names = c(
+    "IS0h", # variable names
+    "PS0h","HA0h","PCS0h","PAGLN0h","IL1β0h","IL180h","LPS0h"
+  ),
+  matrix.type = "upper", # type of visualization matrix
+   package = "wesanderson",
+   palette = "GrandBudapest1",
+  title = "炎症因子与肠道毒素相关性图",
+  subtitle = "0h相关性"
+)
