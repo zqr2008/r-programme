@@ -1,0 +1,22 @@
+
+qiaozhi<-qiaozhi[,-2]
+row.names(qiaozhi)<-qiaozhi[,1]
+qiaozhi<-qiaozhi[,-1]
+data$sex<-factor(mydata$sex,levels = c("1","2"),labels = c("男","女"))
+mydata<-removeRowsAllNa(mydata)
+mydata<-mydata[-1,]
+qiaozhiy<-mydata[,5]
+as.vector(qiaozhiy)
+
+
+> summary(qiaozhiy)
+男 女 
+15 27 
+> dim(qiaozhi)
+[1]  42 153
+
+> library(mixOmics)
+> MyResult.splsda <- splsda(qiaozhi, qiaozhiy, keepX = c(50,50))
+> plotIndiv(MyResult.splsda, ind.names = FALSE, legend=TRUE,
+           ellipse = TRUE, star = TRUE, title = '不同性别磷脂差异的偏最小二乘法判别分析图',
+            X.label = 'PLS-DA 1', Y.label = 'PLS-DA 2')
