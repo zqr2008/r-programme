@@ -9,14 +9,31 @@ qiaozhiy<-mydata[,5]
 as.vector(qiaozhiy)
 
 
-> summary(qiaozhiy)
+summary(qiaozhiy)
 男 女 
 15 27 
-> dim(qiaozhi)
+dim(qiaozhi)
 [1]  42 153
 
-> library(mixOmics)
-> MyResult.splsda <- splsda(qiaozhi, qiaozhiy, keepX = c(50,50))
-> plotIndiv(MyResult.splsda, ind.names = FALSE, legend=TRUE,
+library(mixOmics)
+MyResult.splsda <- splsda(qiaozhi, qiaozhiy, keepX = c(50,50))
+plotIndiv(MyResult.splsda, ind.names = FALSE, legend=TRUE,
            ellipse = TRUE, star = TRUE, title = '不同性别磷脂差异的偏最小二乘法判别分析图',
             X.label = 'PLS-DA 1', Y.label = 'PLS-DA 2')
+
+> plotVar(MyResult.splsda, cutoff = 0.7)
+
+
+> auc.plsda <- auroc(MyResult.splsda)
+
+            AUC   p-value
+男 vs 女 0.8519 0.0001836
+
+
+            AUC   p-value
+男 vs 女 0.9901 1.882e-07
+
+
+
+> MyResult.splsda2 <- splsda(qiaozhi,qiaozhiy, ncomp=3, keepX=c(15,10,5))
+> plotLoadings(MyResult.splsda2, contrib = 'max', method = 'mean')
