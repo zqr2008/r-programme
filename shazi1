@@ -73,3 +73,28 @@ pic3<-ggbetweenstats(
 pic20 = pic20 + theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 10),
                      axis.title.y = element_text(family = "TNM", face = "bold", size = 10))
 > pic20
+
+
+
+
+
+set.seed(123)
+pic19<-ggbetweenstats(
+    data = mydata,   
+    x = 性别, 
+    y = Cer26.0,  
+    type = 'np',  
+    plot.type = 'boxviolin', 
+    xlab = '性别分组', 
+    ylab = '不同性别Cer26.0水平',
+    title = '不同性别Cer26.0差异',
+    ggtheme = ggthemes::theme_fivethirtyeight(),
+    package = "wesanderson", 
+    palette = "Darjeeling1",
+    pairwise.comparisons = FALSE,
+    p.adjust.method=none,
+    results.subtitle=FALSE) 
+
+    
+pic19<-pic19+geom_signif(comparisons = list(c("男", "女")), annotation = '*p=0.032') +
+theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), axis.title.y = element_text(family = "TNM", face = "bold", size = 18))    
