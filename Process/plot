@@ -1,0 +1,95 @@
+---
+title: "plot_second_result"
+author: "zqr2008"
+date: "2021/7/16"
+output: html_document
+---
+library(tidyverse)
+library(magrittr)
+library(wesanderson)
+library(compareGroups)
+library(ggplot2)
+library(ggstatsplot)
+library(patchwork)
+library(ggthemes)
+library(reshape2)
+library(ggsignif)
+library(haven)
+windowsFonts(TNM = windowsFont("Times New Roman"))
+pic<-list()
+
+------------------------------------------------------------
+#加载数据
+X20210716 <- read_sav("C:/Users/mjdee/Desktop/20210716.sav")
+data <- X20210716[1:126,10:82] 
+data[is.na(data)]<-0 
+data$outcome<-factor(data$outcome,levels=c("1","2"),label=c("survivor","non-survivor"))
+
+
+--------------------------------------------------------------
+#p<0.05集合挑出来
+result_two<-read.csv("C:/Users/mjdee/Desktop/gut-CA/second_result(result_two).csv")
+names(result_two)[1]<-"p_value"
+result_two<- result_two %>% filter(p_value<0.05)
+
+----------------------------------------------------------------
+#
+for (i in 1:nrow(result_two)){
+    rows<-as.character(result_two[i,2:3])
+    the_vector<-data[,rows]
+    the_vector1<-pull(the_vector,1)
+    the_vector2<-pull(the_vector,2)
+    dataMax<-data %>% mutate(maxIS=pmax(the_vector1,the_vector2),na.rm=TRUE)
+    dataMax$maxIS<-as.numeric(dataMax$maxIS)
+    pic[[i]]<-ggbetweenstats(
+       data = dataMax,  # 数据集 
+       x = outcome, # 分组变量 
+       y = maxIS,  # 目标变量 
+       type = 'np', # p是参数检验，np是非参数检验 
+       plot.type = 'boxviolin', # 还可以是，violin小提琴图，boxviolin二者叠加 
+       xlab = 'Outcome at discharge', 
+       ylab = 'IS level in different outcome group', 
+       pairwise.display = 'all', #显示组间比较有差异的，ns是显示没有差异的 
+       pairwise.comparisons = TRUE, # display results from pairwise comparisons
+       pairwise.annotation = "p.value", # annotate the pairwise comparisons using p-values
+       p.adjust.method = 'bonferroni', #组间两两比较的p值校正的方法，如bonferroni 
+       ggtheme = ggthemes::theme_fivethirtyeight(),
+       ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
+       package = "wesanderson", # package from which color palette is to be taken
+       palette = "Darjeeling1") # choosing a different color palette
+    i=i+1
+}
+
+
+
+
+
+
+    
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
