@@ -1,5 +1,11 @@
 ---
+title: "read"
+author: "zqr2008"
+date: "2021/7/6"
+output: html_document
+---
 library(memisc)
+library(plyr)
 library(dplyr)
 library(magrittr)
 library(wesanderson)
@@ -13,17 +19,35 @@ library(reshape2)
 library(ggsignif)
 library(gtools)
 
+
 data0 = analyze_secondtime <- read_sav("C:/Users/Meripet/Desktop/analyze_secondtime.sav") #读取数据
 data <- data0[1:126,10:82] #选取分析的毒素
 data[is.na(data)]<-0 #缺失值处理
 data$outcome<-factor(data$outcome,levels=c("1","2"),label=c("存活","死亡"))
 
 IS<-c("IS0h","IS4h","IS8h","IS12h","IS24h","IS48h","IS72h","IS1w")
-IS<-combinations(8, 2, IS[1:8], set=TRUE, repeats.allowed=FALSE)
+PS<-c("PS0h","PS4h","PS8h","PS12h","PS24h","PS48h","PS72h","PS1w")
+HA<-c("HA0h","HA4h","HA8h","HA12h","HA24h","HA48h","HA72h","HA1w")
+PCS<-c("PCS0h","PCS4h","PCS8h","PCS12h","PCS24h","PCS48h","PCS72h","PCS1w")
+CMPF<-c("CMPF0h","CMPF4h","CMPF8h","CMPF12h","CMPF24h","CMPF48h","CMPF72h","CMPF1w")
+PAGLN<-c("PAGLN0h","PAGLN4h","PAGLN8h","PAGLN12h","PAGLN24h","PAGLN48h","PAGLN72h","PAGLN1w")
+
 my_list <- list()     
 my_index <- list()
 
-function1<-function(x){for (i in 1:nrow(x)){
+combine<-function(x){
+comb=combinations(8, 2, x[1:8], set=TRUE, repeats.allowed=FALSE)
+return(x)}
+
+IS<-combinations(8, 2, IS[1:8], set=TRUE, repeats.allowed=FALSE)
+PS<-combinations(8, 2, PS[1:8], set=TRUE, repeats.allowed=FALSE)
+HA<-combinations(8, 2, HA[1:8], set=TRUE, repeats.allowed=FALSE)
+PCS<-combinations(8, 2, PCS[1:8], set=TRUE, repeats.allowed=FALSE)
+CMPF<-combinations(8, 2, CMPF[1:8], set=TRUE, repeats.allowed=FALSE)
+PAGLN<-combinations(8, 2, PAGLN[1:8], set=TRUE, repeats.allowed=FALSE)
+
+take2<-function(x){
+for (i in 1:nrow(x)){
   tmp = paste0("vector",i)
   tmp<-assign(tmp,x[i,])
   the_vector<-data[,tmp]
@@ -40,11 +64,46 @@ function1<-function(x){for (i in 1:nrow(x)){
   result<-cbind(result, IS_index)
   return(result)
   }
+  
+  
+IS2<-take2(IS)
+PS2<-take2(PS)
+HA2<-take2(HA)
+PCS2<-take2(PCS)
+CMPF2<-take2(CMPF)
+PAGLN2<-take2(PAGLN)
+result_two<-rbind.fill(IS2,PS2,HA2,PCS2,CMPF2,PAGLN2)
 
-function2<-function(x){ggbetweenstats(
-    data = x,  # 数据集 
+dataMax<-data %>% mutate(maxIS=pmax(CMPF1w,CMPF72h),na.rm=TRUE)
+dataMax$maxIS<-as.numeric(dataMax$maxIS)
+wilcox.test(maxIS~outcome,dataMax)
+
+
+
+take3<-function(x){for (i in 1:nrow(x)){
+  tmp = paste0("vector",i)
+  tmp<-assign(tmp,x[i,])
+  the_vector<-data[,tmp]
+  the_vector1<-pull(the_vector,1)
+  the_vector2<-pull(the_vector,2)
+  the_vector3<-pull(the_vector,3)
+  dataMax<-data %>% mutate(maxIS=pmax(the_vector1,the_vector2,the_vector3),na.rm=TRUE)
+  dataMax$maxIS<-as.numeric(dataMax$maxIS)
+  wilcox<-wilcox.test(maxIS~outcome,dataMax)
+  my_list[[i]]<-wilcox[[3]]
+  my_index[[i]]<-tmp
+  i=i+1}
+  result<- data.frame(matrix(unlist(my_list), nrow=56, byrow=T),stringsAsFactors=FALSE)
+  IS_index<-data.frame(matrix(unlist(my_index), nrow=56, byrow=T),stringsAsFactors=FALSE)
+  result<-cbind(result, IS_index)
+  return(result)
+  }
+
+
+pic1<-ggbetweenstats(
+    data = dataMax,  # 数据集 
     x = outcome, # 分组变量 
-    y = maxVariable,  # 目标变量 
+    y = maxIS,  # 目标变量 
     type = 'np', # p是参数检验，np是非参数检验 
     plot.type = 'boxviolin', # 还可以是，violin小提琴图，boxviolin二者叠加 
     xlab = '预后分组', 
@@ -57,9 +116,34 @@ function2<-function(x){ggbetweenstats(
     ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
     package = "wesanderson", # package from which color palette is to be taken
     palette = "Darjeeling1") # choosing a different color palette
-}
 
 
-pic1= pic1+geom_signif(comparisons = list(c("存活", "死亡")), annotation = '*p=0.01864') +
+pic1= pic1+geom_signif(comparisons = list(c("存活", "死亡"))) +
     theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 18), axis.title.y = element_text(family = "TNM", face = "bold", size = 18)) 
+    
+    
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
     
