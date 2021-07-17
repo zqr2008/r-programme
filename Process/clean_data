@@ -1,0 +1,117 @@
+library(readxl)
+library(tidyverse)
+clinical<-read.csv("D:/cardiac arrest/gut-CA/original_material/变量临床-汇总5-28.csv")
+data_c<-clinical
+data_c<- data_c[!apply(is.na(data_c) | data_c== "", 1, all),]
+
+names(data_c)[2]<-"age"
+names(data_c)[3]<-"gender"
+names(data_c)[10]<-"outcome_at_discharge"
+data_c$gender<-factor(data_c$gender,levels = c("1","2"),labels = c("male","female"))
+data_c$outcome_at_discharge<-factor(data_c$outcome_at_discharge,levels = c("1","2"),labels = c("survivors","non-survivors"))
+names(data_c)[59]<-"location"
+data_c$location<-factor(data_c$location,levels = c("1","2"),labels = c("out-of-hospital arrest","in-hospital arrest"))
+names(data_c)[60]<-"symptoms_before_arrest"
+data_c$symptoms_before_arrest<-factor(data_c$symptoms_before_arrest,levels = c("1","2","3","4","5"),labels = c("chest_pain","dyspnea","headache","no_symptoms","other"))
+names(data_c)[66]<-"witnessed_arrest"
+data_c$witnessed_arrest<-factor(data_c$witnessed_arrest,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[67]<-"by_stander_CPR"
+data_c$by_stander_CPR<-factor(data_c$by_stander_CPR,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[69]<-"inital_heart_rhythm"
+data_c$inital_heart_rhythm<names(data_c)[99]<-factor(data_c$inital_heart_rhythm,levels = c("1","2","0"),labels = c("defibrillable","Non_defibrillable","unknown"))
+names(data_c)[78]<-"presumed_causes"
+data_c$presumed_causes<-factor(data_c$presumed_causes,levels = c("1","2","3","4","5","6","7","8"),labels = c("cardiogenic","respiratory","neurogenic","traumatic","poisoning","drowning","electric_shock","others"))
+
+names(data_c)[81]<-"diabetes"
+names(data_c)[82]<-"hypertension"
+names(data_c)[83]<-"coronary_heart_disease"
+names(data_c)[84]<-"heart_failure"
+names(data_c)[85]<-"history_of_PCI"
+names(data_c)[86]<-"history_of_CABG"
+names(data_c)[87]<-"arrhythmia"
+names(data_c)[88]<-"cerebrovascular_disease "
+names(data_c)[89]<-"rheumatic_heart_disease"
+names(data_c)[90]<-"cardiomyopathy"
+names(data_c)[91]<-"asthma"
+names(data_c)[92]<-"renal_insufficiency"
+names(data_c)[93]<-"deep_vein_thrombosis"
+names(data_c)[94]<-"thyroid_disease"
+names(data_c)[95]<-"aortic_disease"
+names(data_c)[96]<-"end_stage_disease"
+data_c[,81:96] <- lapply(data_c[,81:96], as.factor)
+names(data_c)[99]<-"Glasgow_score"
+data_c$Glasgow_score<-factor(data_c$Glasgow_score,levels = c("1","2"),labels = c(">8","<8"))
+names(data_c)[100]<-"heart_rate"
+names(data_c)[101]<-"the_rhythm"
+data_c$the_rhythm<-factor(data_c$the_rhythm,levels = c("1","2","3","4","5"),labels = c("sinus_rhythm","atrial_fibrillation","ventricular_tachycardia","premature_beats","others"))
+names(data_c)[102]<-"SBP"
+names(data_c)[103]<-"Vasoactive_drugs"
+names(data_c)[104]<-"Sedative_drugs"
+names(data_c)[105]<-"withdrawal_of_life_sustain_therapy"
+data_c$Vasoactive_drugs<-factor(data_c$Vasoactive_drugs,levels = c("1","2"),labels = c("yes","no"))
+data_c$Sedative_drugs<-factor(data_c$Sedative_drugs,levels = c("1","2"),labels = c("yes","no"))
+data_c$withdrawal_of_life_sustain_therapy<-factor(data_c$withdrawal_of_life_sustain_therapy,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[117]<-"CPC_at_discharge"
+data_c$CPC_at_discharge<-factor(data_c$CPC_at_discharge)
+
+names(data_c)[6]<-"date_of_visit"
+names(data_c)[7]<-"date_of_arrest"
+names(data_c)[9]<-"date_of_death"library(readxl)
+library(tidyverse)
+clinical<-read.csv("D:/cardiac arrest/gut-CA/original_material/变量临床-汇总5-28.csv")
+data_c<-clinical
+data_c<- data_c[!apply(is.na(data_c) | data_c== "", 1, all),]
+
+names(data_c)[2]<-"age"
+names(data_c)[3]<-"gender"
+names(data_c)[10]<-"outcome_at_discharge"
+data_c$gender<-factor(data_c$gender,levels = c("1","2"),labels = c("male","female"))
+data_c$outcome_at_discharge<-factor(data_c$outcome_at_discharge,levels = c("1","2"),labels = c("survivors","non-survivors"))
+names(data_c)[59]<-"location"
+data_c$location<-factor(data_c$location,levels = c("1","2"),labels = c("out-of-hospital arrest","in-hospital arrest"))
+names(data_c)[60]<-"symptoms_before_arrest"
+data_c$symptoms_before_arrest<-factor(data_c$symptoms_before_arrest,levels = c("1","2","3","4","5"),labels = c("chest_pain","dyspnea","headache","no_symptoms","other"))
+names(data_c)[66]<-"witnessed_arrest"
+data_c$witnessed_arrest<-factor(data_c$witnessed_arrest,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[67]<-"by_stander_CPR"
+data_c$by_stander_CPR<-factor(data_c$by_stander_CPR,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[69]<-"inital_heart_rhythm"
+data_c$inital_heart_rhythm<names(data_c)[99]<-factor(data_c$inital_heart_rhythm,levels = c("1","2","0"),labels = c("defibrillable","Non_defibrillable","unknown"))
+names(data_c)[78]<-"presumed_causes"
+data_c$presumed_causes<-factor(data_c$presumed_causes,levels = c("1","2","3","4","5","6","7","8"),labels = c("cardiogenic","respiratory","neurogenic","traumatic","poisoning","drowning","electric_shock","others"))
+
+names(data_c)[81]<-"diabetes"
+names(data_c)[82]<-"hypertension"
+names(data_c)[83]<-"coronary_heart_disease"
+names(data_c)[84]<-"heart_failure"
+names(data_c)[85]<-"history_of_PCI"
+names(data_c)[86]<-"history_of_CABG"
+names(data_c)[87]<-"arrhythmia"
+names(data_c)[88]<-"cerebrovascular_disease "
+names(data_c)[89]<-"rheumatic_heart_disease"
+names(data_c)[90]<-"cardiomyopathy"
+names(data_c)[91]<-"asthma"
+names(data_c)[92]<-"renal_insufficiency"
+names(data_c)[93]<-"deep_vein_thrombosis"
+names(data_c)[94]<-"thyroid_disease"
+names(data_c)[95]<-"aortic_disease"
+names(data_c)[96]<-"end_stage_disease"
+data_c[,81:96] <- lapply(data_c[,81:96], as.factor)
+names(data_c)[99]<-"Glasgow_score"
+data_c$Glasgow_score<-factor(data_c$Glasgow_score,levels = c("1","2"),labels = c(">8","<8"))
+names(data_c)[100]<-"heart_rate"
+names(data_c)[101]<-"the_rhythm"
+data_c$the_rhythm<-factor(data_c$the_rhythm,levels = c("1","2","3","4","5"),labels = c("sinus_rhythm","atrial_fibrillation","ventricular_tachycardia","premature_beats","others"))
+names(data_c)[102]<-"SBP"
+names(data_c)[103]<-"Vasoactive_drugs"
+names(data_c)[104]<-"Sedative_drugs"
+names(data_c)[105]<-"withdrawal_of_life_sustain_therapy"
+data_c$Vasoactive_drugs<-factor(data_c$Vasoactive_drugs,levels = c("1","2"),labels = c("yes","no"))
+data_c$Sedative_drugs<-factor(data_c$Sedative_drugs,levels = c("1","2"),labels = c("yes","no"))
+data_c$withdrawal_of_life_sustain_therapy<-factor(data_c$withdrawal_of_life_sustain_therapy,levels = c("1","2"),labels = c("yes","no"))
+names(data_c)[117]<-"CPC_at_discharge"
+data_c$CPC_at_discharge<-factor(data_c$CPC_at_discharge)
+
+names(data_c)[6]<-"date_of_visit"
+names(data_c)[7]<-"date_of_arrest"
+names(data_c)[9]<-"date_of_death"
