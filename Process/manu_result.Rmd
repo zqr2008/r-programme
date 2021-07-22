@@ -19,6 +19,7 @@ library(gtsummary)
 library(afex)
 library(scales)
 library(ggpubr)
+library(patchwork)
 
 windowsFonts(HEL=windowsFont("Helvetica CE 55 Roman"),
              TNM=windowsFont("Times New Roman"),
@@ -47,7 +48,8 @@ il18<-il18[!is.na(il18$il18_level),]
 pic1<-ggboxplot(il1b,x='time',y='il1b_level',fill='outcome',add="point",bxp.errorbar=T,bxp.errorbar.width=0.2, 
                 palette="aaas")+labs(title=
                'Inflammation in different survivor group',
-               subtitle="A",X='time point since return of spontaneous circulation',x = 
+                subtitle="A          Repeated measures ANOVA, F=2.82, p=0.03"
+               ,X='time point since return of spontaneous circulation',x = 
                'IL-1β at different time  group', y = 'IL-1β level(pg/mL)')+
                theme(
                plot.title    = element_text(color = 'black', size   = 16, hjust = 0.5),
@@ -64,7 +66,7 @@ pic1<-ggboxplot(il1b,x='time',y='il1b_level',fill='outcome',add="point",bxp.erro
                panel.border = element_rect(linetype = 'solid', size = 1.2,fill = NA) # 图四周框起来
                )+ggthemes::theme_fivethirtyeight()+ 
                theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
-               axis.title.y = element_text(family = "TNM", face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 14),
                axis.text.x=element_text(family = "TNM", size = 14),
                axis.text.y=element_text(family = "TNM", size = 14),
                plot.title=element_text(family = "TNM", face = "bold", size = 18),
@@ -75,7 +77,8 @@ pic1<-ggboxplot(il1b,x='time',y='il1b_level',fill='outcome',add="point",bxp.erro
                    
 pic2<-ggboxplot(il18,x='time',y='il18_level',fill='outcome',add="point",bxp.errorbar=T,bxp.errorbar.width=0.2, 
                 palette="aaas")+labs(
-               subtitle="B",X='time point since return of spontaneous circulation',x = 
+               subtitle="B          repeated measures ANOVA, F=4.04，p<0.01",
+               X='time point since return of spontaneous circulation',x = 
                'IL-18 at different time  group', y = 'IL-18 level(pg/mL)')+
                theme(
                plot.title    = element_text(color = 'black', size   = 16, hjust = 0.5),
@@ -92,14 +95,14 @@ pic2<-ggboxplot(il18,x='time',y='il18_level',fill='outcome',add="point",bxp.erro
                panel.border = element_rect(linetype = 'solid', size = 1.2,fill = NA) # 图四周框起来
                )+ggthemes::theme_fivethirtyeight()+ 
                theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
-               axis.title.y = element_text(family = "TNM", face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 14),
                axis.text.x=element_text(family = "TNM", size = 14),
                axis.text.y=element_text(family = "TNM", size = 14),
                plot.title=element_text(family = "TNM", face = "bold", size = 18),
                legend.title =element_text(family = "TNM", size = 14),
                legend.text=element_text(family = "TNM", size = 14),
                plot.caption=element_text(family = "TNM", size = 14))+
-               scale_y_continuous(trans = squish_trans(2000,4000,5),breaks = seq(0,4000, by = 500))
+               scale_y_continuous(trans = squish_trans(2000,4000,5),breaks = seq(0,4000, by = 1000))
 
 #sacle y轴的工具函数 squish_trans
 squish_trans <- function(from, to, factor) {

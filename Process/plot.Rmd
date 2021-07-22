@@ -1,0 +1,130 @@
+---
+title: "plot"
+author: "zqr2008"
+date: "2021/7/16"
+output: html_document
+---
+library(tidyverse)
+library(magrittr)
+library(wesanderson)
+library(compareGroups)
+library(ggplot2)
+library(ggstatsplot)
+library(patchwork)
+library(ggthemes)
+library(reshape2)
+library(ggsignif)
+library(haven)
+library(ggplot2)
+set.seed(123)
+windowsFonts(TNM = windowsFont("Times New Roman"))
+pic<-list()
+
+data0 = analyze_secondtime <- read_sav("C:/Users/Meripet/Desktop/analyze_secondtime.sav") #读取数据
+data <- data0[1:126,10:82] #选取分析的毒素
+data$outcome<-factor(data$outcome,levels=c("1","2"),label=c("survivor","non-survivor"))
+names(result_six)[1]<-"p_value"
+result_six<- result_six %>% filter(p_value<0.05)
+
+
+
+
+#pic3
+dataMax<-data %>% mutate(maxIS=pmax(PAGLN24h,PAGLN72h,PAGLN8h),na.rm=TRUE)
+    dataMax$maxIS<-as.numeric(dataMax$maxIS)
+  
+pic3<-ggbetweenstats(
+       data = dataMax,  # 数据集 
+       x = outcome, # 分组变量 
+       y = maxIS,  # 目标变量 
+       plot.type = 'boxviolin', # 还可以是，violin小提琴图，boxviolin二者叠加 
+       xlab = 'Outcome at discharge', 
+       ylab = 'PAGln level(μM))(max of 8h,24h and 72h)', 
+       pairwise.display = 'all', #显示组间比较有差异的，ns是显示没有差异的 
+       pairwise.comparisons = TRUE, # display results from pairwise comparisons
+       pairwise.annotation = "p.value", # annotate the pairwise comparisons using p-values
+       p.adjust.method = 'bonferroni', #组间两两比较的p值校正的方法，如bonferroni
+       type = 'np',
+       ggtheme = ggthemes::theme_fivethirtyeight(),
+       ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
+       package = "ggsci", # package from which color palette is to be taken
+       palette = "default_aaas",
+       results.subtitle=FALSE,
+       subtitle = ggplot2::expr(paste("C    ","log"["e"](italic("W")["Mann-Whitney"]), 
+    " = ", "3.64", ", ", italic("p"), 
+    " = ", "0.029", ", ", widehat(italic("r"))["biserial"]^"rank", 
+    " = ", "-0.53", ", CI"["95%"], " [", 
+    "-0.79", ", ", "-0.12", "] ")
+       ),
+       title="gut-derived toxins in different survivor group"
+      )+theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 14),
+               axis.text.x=element_text(family = "TNM", size = 14),
+               axis.text.y=element_text(family = "TNM", size = 14),
+               plot.title=element_text(family = "TNM", face = "bold", size = 18),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))
+
+
+-----------------------------------------------------------------------------------------
+#pic4               
+dataMax<-data %>% mutate(maxIS=pmax(PCS1w,PCS48h),na.rm=TRUE)
+    dataMax$maxIS<-as.numeric(dataMax$maxIS)
+    
+pic4<-ggbetweenstats(
+       data = dataMax,  # 数据集 
+       x = outcome, # 分组变量 
+       y = maxIS,  # 目标变量 
+       plot.type = 'boxviolin', # 还可以是，violin小提琴图，boxviolin二者叠加 
+       xlab = 'Outcome at discharge', 
+       ylab = 'pCS (μM)(max of 48h and 1w)', 
+       pairwise.display = 'all', #显示组间比较有差异的，ns是显示没有差异的 
+       pairwise.comparisons = TRUE, # display results from pairwise comparisons
+       pairwise.annotation = "p.value", # annotate the pairwise comparisons using p-values
+       p.adjust.method = 'bonferroni', #组间两两比较的p值校正的方法，如bonferroni
+       type = 'np',
+       ggtheme = ggthemes::theme_fivethirtyeight(),
+       ggstatsplot.layer = FALSE, # turn off `ggstatsplot` theme layer
+       package = "ggsci", # package from which color palette is to be taken
+       palette = "default_aaas",
+       results.subtitle=FALSE,
+       subtitle = ggplot2::expr(paste("D    ","log"["e"](italic("W")["Mann-Whitney"]), 
+    " = ", "5.22", ", ", italic("p"), 
+    " = ", "0.026", ", ", widehat(italic("r"))["biserial"]^"rank", 
+    " = ", "0.47", ", CI"["95%"], " [", 
+    "0.10", ", ", "0.72", "]")
+       )
+      )+theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 14),
+               axis.text.x=element_text(family = "TNM", size = 14),
+               axis.text.y=element_text(family = "TNM", size = 14),
+               plot.title=element_text(family = "TNM", face = "bold", size = 18),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

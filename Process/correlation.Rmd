@@ -1,0 +1,76 @@
+---
+title: "correlation"
+author: "zqr2008"
+date: "2021/7/22"
+output: html_document
+---
+data0 = as.data.set(spss.system.file("C:/Users/Meripet/Desktop/2020529.sav"))
+
+data = as.data.frame(data0)
+
+
+pic5<-ggstatsplot::ggcorrmat(
+  data = data,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "holm", # p-value adjustment method for multiple comparisons
+  cor.vars = c(IS12h,PS12h,HA12h,PCS12h,PAGLN12h,IL1β12h,IL1812h), # a range of variables can be selected
+  cor.vars.names = c(
+    "IS12h","PS12h","HA12h","PCS12h","PAGLN12h","IL1β12h","IL1812h"
+  ),
+  ggtheme = ggthemes::theme_fivethirtyeight(),
+  colors = c("#2d69b0","white","#f02721"),
+  matrix.type = "full", # type of visualization matrix
+  subtitle = "B         correlations at 12h"
+)+theme(       plot.title=element_text(family = "TNM", face = "bold", size = 14),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))
+
+
+pic6<-ggstatsplot::ggcorrmat(
+  data = data,
+  type = "spearman", # correlation method
+  sig.level = 0.05, # threshold of significance
+  p.adjust.method = "holm", # p-value adjustment method for multiple comparisons
+  cor.vars = c(IS0h,PS0h,HA0h,PCS0h,PAGLN0h,IL1β0h,IL180h), # a range of variables can be selected
+  cor.vars.names = c(
+    "IS0h","PS0h","HA0h","PCS0h","PAGLN0h","IL1β0h","IL180h"
+  ),
+  ggtheme = ggthemes::theme_fivethirtyeight(),
+  colors = c("#2d69b0","white","#f02721"),
+  title = "Correlations between IL-1β,IL-18 and gut-derived toxins",
+  matrix.type = "full", # type of visualization matrix
+  subtitle = "A         correlations at 0h"
+)+theme(       plot.title=element_text(family = "TNM", face = "bold", size = 14),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
