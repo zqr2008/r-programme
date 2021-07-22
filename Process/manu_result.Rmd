@@ -1,0 +1,187 @@
+---
+title: "visual_all_result"
+author: "zqr2008"
+date: "2021/7/20"
+output: html_document
+---
+library(tidyverse)
+library(magrittr)
+library(wesanderson)
+library(compareGroups)
+library(ggplot2)
+library(ggstatsplot)
+library(patchwork)
+library(ggthemes)
+library(reshape2)
+library(ggsignif)
+library(haven)
+library(gtsummary)
+library(afex)
+library(scales)
+library(ggpubr)
+
+windowsFonts(HEL=windowsFont("Helvetica CE 55 Roman"),
+             TNM=windowsFont("Times New Roman"),
+             ARL=windowsFont("Arial"))
+             
+             
+total<-X126_all_variables
+total[,134:325]<-map(total[,134:325],as.numeric)
+total<-total[,-c(176:182)]
+mydata<-total
+
+descrTable(outcome~.,data=total,method=NA,hide.no="no")
+descrTable(outcome~.,data=total,method=NA,subset = presumed_causes=="cardiogenic",hide.no="no")
+
+#准备il1b
+il1b<-total[,c(3,4,53,54,56,57,59)]
+il1b<- il1b %>% gather(key = "time", value = "il1b_level",IL1β0h,IL1β4h,IL1β12h,IL1β24h,IL1β72h) 
+il1b<-il1b[!is.na(il1b$il1b_level),]
+
+il18<-total[,c(3,4,61,62,64,65,67)]
+il18<- il18 %>% gather(key = "time", value = "il18_level",IL180h,IL184h,IL1812h,IL1824h,IL1872h) 
+il18<-il18[!is.na(il18$il18_level),]
+                   
+                   
+                   
+pic1<-ggboxplot(il1b,x='time',y='il1b_level',fill='outcome',add="point",bxp.errorbar=T,bxp.errorbar.width=0.2, 
+                palette="aaas")+labs(title=
+               'Inflammation in different survivor group',
+               subtitle="A",X='time point since return of spontaneous circulation',x = 
+               'IL-1β at different time  group', y = 'IL-1β level(pg/mL)')+
+               theme(
+               plot.title    = element_text(color = 'black', size   = 16, hjust = 0.5),
+               plot.subtitle = element_text(color = 'black', size   = 16,hjust = 0.5),
+               plot.caption  = element_text(color = 'black', size   = 16,face = 'italic', hjust = 1),
+               axis.text.x   = element_text(color = 'black', size = 16, angle = 0),
+               axis.text.y   = element_text(color = 'black', size = 16, angle = 0),
+               axis.title.x  = element_text(color = 'black', size = 16, angle = 0),
+               axis.title.y  = element_text(color = 'black', size = 16, angle = 90),
+               legend.title  = element_text(color = 'black', size  = 16),
+               legend.text   = element_text(color = 'black', size   = 16),
+               axis.line.y = element_line(color = 'black', linetype = 'solid'), # y轴线特征
+               axis.line.x = element_line (color = 'black',linetype = 'solid'), # x轴线特征
+               panel.border = element_rect(linetype = 'solid', size = 1.2,fill = NA) # 图四周框起来
+               )+ggthemes::theme_fivethirtyeight()+ 
+               theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 18),
+               axis.text.x=element_text(family = "TNM", size = 14),
+               axis.text.y=element_text(family = "TNM", size = 14),
+               plot.title=element_text(family = "TNM", face = "bold", size = 18),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))+
+               scale_y_continuous(trans = squish_trans(10,80,15))
+                   
+pic2<-ggboxplot(il18,x='time',y='il18_level',fill='outcome',add="point",bxp.errorbar=T,bxp.errorbar.width=0.2, 
+                palette="aaas")+labs(
+               subtitle="B",X='time point since return of spontaneous circulation',x = 
+               'IL-18 at different time  group', y = 'IL-18 level(pg/mL)')+
+               theme(
+               plot.title    = element_text(color = 'black', size   = 16, hjust = 0.5),
+               plot.subtitle = element_text(color = 'black', size   = 16,hjust = 0.5),
+               plot.caption  = element_text(color = 'black', size   = 16,face = 'italic', hjust = 1),
+               axis.text.x   = element_text(color = 'black', size = 16, angle = 0),
+               axis.text.y   = element_text(color = 'black', size = 16, angle = 0),
+               axis.title.x  = element_text(color = 'black', size = 16, angle = 0),
+               axis.title.y  = element_text(color = 'black', size = 16, angle = 90),
+               legend.title  = element_text(color = 'black', size  = 16),
+               legend.text   = element_text(color = 'black', size   = 16),
+               axis.line.y = element_line(color = 'black', linetype = 'solid'), # y轴线特征
+               axis.line.x = element_line (color = 'black',linetype = 'solid'), # x轴线特征
+               panel.border = element_rect(linetype = 'solid', size = 1.2,fill = NA) # 图四周框起来
+               )+ggthemes::theme_fivethirtyeight()+ 
+               theme(axis.title.x = element_text(family = "TNM",face = "bold", size = 18),
+               axis.title.y = element_text(family = "TNM", face = "bold", size = 18),
+               axis.text.x=element_text(family = "TNM", size = 14),
+               axis.text.y=element_text(family = "TNM", size = 14),
+               plot.title=element_text(family = "TNM", face = "bold", size = 18),
+               legend.title =element_text(family = "TNM", size = 14),
+               legend.text=element_text(family = "TNM", size = 14),
+               plot.caption=element_text(family = "TNM", size = 14))+
+               scale_y_continuous(trans = squish_trans(2000,4000,5),breaks = seq(0,4000, by = 500))
+
+#sacle y轴的工具函数 squish_trans
+squish_trans <- function(from, to, factor) {
+  
+  trans <- function(x) {
+    
+    if (any(is.na(x))) return(x)
+
+    # get indices for the relevant regions
+    isq <- x > from & x < to
+    ito <- x >= to
+    
+    # apply transformation
+    x[isq] <- from + (x[isq] - from)/factor
+    x[ito] <- from + (to - from)/factor + (x[ito] - to)
+    
+    return(x)
+  }
+
+  inv <- function(x) {
+    
+    if (any(is.na(x))) return(x)
+
+    # get indices for the relevant regions
+    isq <- x > from & x < from + (to - from)/factor
+    ito <- x >= from + (to - from)/factor
+    
+    # apply transformation
+    x[isq] <- from + (x[isq] - from) * factor
+    x[ito] <- to + (x[ito] - (from + (to - from)/factor))
+    
+    return(x)
+  }
+  
+  # return the transformation
+  return(trans_new("squished", trans, inv))
+}
+
+
+
+#second way(maybe ugly)
+afexout1 <- aov_ez("ID号", "il1b_level",  between=c("outcome"),within = c("time"),type=3,
+                   data = il1b)    ##  return="Anova" 输出多变量分类结果
+summary(afexout1)
+
+
+
+afex_plot(afexout1,x = "time", trace = "outcome",error = "within",
+                   mapping = c("linetype","shape", "fill"),bxp.errorbar=T,bxp.errorbar.width=0.2,
+                   palette='npg',data_geom = ggplot2::geom_boxplot, 
+                   data_arg = list(width = 0.4)
+                    )+
+                   theme(legend.position="bottom")
+p1 <- afex_plot( afexout1, x = "time", trace = "outcome",error = "within",
+                 mapping = c("linetype","shape", "fill"),
+                 data_geom = ggplot2::geom_boxplot, 
+                 data_arg = list(width = 0.4))+theme_bw()+
+                 theme(legend.position="bottom")+
+                 geom_line()+ theme(axis.title.x = element_text(family = "TNM", face = "bold", size = 10),
+                  axis.title.y = element_text(family = "TNM", face = "bold", size = 10))
+        
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
