@@ -1,0 +1,13 @@
+#set cut-off value 
+#load packages
+library(OptimalCutpoints)
+library(pROC)
+
+#find optimal cut-off
+cutpoint1<-optimal.cutpoints(X="IS4h",status = "outcome",tag.healthy = 0, 
+methods = c("Youden", "SpEqualSe"), data = mydatframe, categorical.cov = NULL, pop.prev = NULL,control = control.cutpoints(), ci.fit = TRUE)
+summary(cutpoint1)
+
+#validate it in usual ROC method, check it!
+roc1<-roc(mydatframe$outcome,mydatframe$IS0h,levels=c("1","0"))
+plot(roc1,print.auc=T, auc.polygon=T, grid=c(0.1, 0.2), grid.col=c("green","red"), max.auc.polygon=T, auc.polygon.col="skyblue",print.thres=T)
