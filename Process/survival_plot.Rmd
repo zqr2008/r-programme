@@ -1,0 +1,114 @@
+---
+title: "survival"
+author: "zqr2008"
+date: "2021/7/28"
+output: html_document
+---
+library(survival)
+library(lubridate)
+library(readxl)
+library(tidyverse)
+library(survminer)
+library(OptimalCutpoints)
+library(pROC)
+survivaldata<-as.data.frame(survivaldata)
+windowsFonts(HEL=windowsFont("Helvetica CE 55 Roman"),
+             TNM=windowsFont("Times New Roman"),
+             ARL=windowsFont("Arial"))
+             
+X126_all_variables_withfollowup <- read_excel("D:/cardiac arrest/gut-CA/second_result(sorted)/126_all_variables_withfollowup.xlsx")
+survivaldata<-X126_all_variables_withfollowup
+
+survivaldata$from_arrest_to_death<-ymd(survivaldata$last_followup)-ymd(survivaldata$date_of_visit...326)
+survivaldata<-within(survivaldata,{from_arrest_to_death[death_at_6_month=="no"]<-180})
+survivaldata$from_arrest_to_death<-as.numeric(survivaldata$from_arrest_to_death)
+survivaldata$death_at_6_month<-factor(survivaldata$death_at_6_month,levels=c("yes","no"),labels=c("1","0"))
+survivaldata$death_at_6_month<-as.numeric(survivaldata$death_at_6_month)
+survivaldata$location<-factor(survivaldata$location)
+
+
+
+survobj <- with(survivaldata, Surv(time=from_arrest_to_death,event=death_at_6_month==1))
+fit0 <- survfit(survobj~location, data=survivaldata)
+plot(fit0, xlab="Survival Time in Days",
+     main="Survival Distribution (Overall)") # 绘图
+     
+
+     
+pic_survival1<-ggsurvplot(fit0,data=survivaldata,palette="aaas",title="A    Survival Curves for All-Cause Mortality(6-month)",xlab="Follow up Time(d)",legend.title="location",risk.table = TRUE,,conf.int = TRUE,conf.int.alpha=0.1,pval = TRUE,xlim=c(0,180),break.x.by=30,ggtheme = theme_classic2(base_size=14, base_family = "TNM"),font.family = "TNM", font.main = c(18, "bold"))
+
+
+----------------------------------------------------------------------------------------
+
+survivaldata$gender<-factor(survivaldata$gender)
+survivaldata$location<-factor(survivaldata$location)
+survivaldata$inital_heart_rhythm<-factor(survivaldata$inital_heart_rhythm)
+survivaldata$Glasgow_score<-factor(survivaldata$Glasgow_score)
+survivaldata$hypothermia_theapy<-factor(survivaldata$hypothermia_theapy)
+survivaldata$outcome<-factor(survivaldata$outcome,levels = c("死亡","存活"),labels = c("1","0"))
+
+survivaldata <- survivaldata%>%mutate(maxIL_IL1b=pmax(IL1β0h,IL1β4h,IL1β12h,IL1β24h,IL1β72h,na.rm=TRUE))%>%mutate(IL1b_category=cut(maxIL_IL1b,breaks=c(-Inf,median(maxIL_IL1b,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxIL_IL18=pmax(IL180h,IL184h,IL1812h,IL1824h,IL1872h,na.rm=TRUE))%>%mutate(IL18_category=cut(maxIL_IL18,breaks=c(-Inf,median(maxIL_IL18,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxIS=pmax(IS0h,IS4h,IS8h,IS12h,IS24h,IS48h,IS72h,IS1w,na.rm=TRUE))%>%mutate(IS_category=cut(maxIS,breaks=c(-Inf,median(maxIS,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxPS=pmax(PS0h,PS4h,PS8h,PS12h,PS24h,PS48h,PS72h,PS1w,na.rm=TRUE))%>%mutate(PS_category=cut(maxPS,breaks=c(-Inf,median(maxPS,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxHA=pmax(HA0h,HA4h,HA8h,HA12h,HA24h,HA48h,HA72h,HA1w,na.rm=TRUE))%>%mutate(HA_category=cut(maxHA,breaks=c(-Inf,median(maxHA,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxPCS=pmax(PCS0h,PCS4h,PCS8h,PCS12h,PCS24h,PCS48h,PCS72h,PCS1w,na.rm=TRUE))%>%mutate(PCS_category=cut(maxPCS,breaks=c(-Inf,median(maxPCS,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata%>%mutate(maxPAGLN=pmax(PAGLN0h,PAGLN4h,PAGLN8h,PAGLN12h,PAGLN24h,PAGLN48h,PAGLN72h,PAGLN1w,na.rm=TRUE))%>%mutate(PAGLN_category=cut(maxPAGLN,breaks=c(-Inf,median(maxPAGLN,na.rm=TRUE),Inf),labels=c("low","high")))
+
+survivaldata <- survivaldata %>%mutate(age_category=cut(age,breaks=c(-Inf,median(age,na.rm=TRUE),Inf),labels=c("low","high")))
+
+
+
+
+
+res.cox <- coxph(Surv(time=from_arrest_to_death,event=death_at_6_month==1) ~age+gender+location+inital_heart_rhythm+witnessed_arrest+IS_category+PS_category+HA_category+PCS_category+PAGLN_category,data=survivaldata)
+summary(res.cox)
+
+test.ph<-cox.zph(res.cox)
+ggcoxzph(test.ph)
+ggcoxdiagnostics(res.cox, type = "dfbeta",
+                 linear.predictions = FALSE, ggtheme = theme_bw())
+                 
+pic_survival2<-ggforest(res.cox,main= "B    Cox regression model examining the factors association with survival(hazard ratio)",data=survivaldata,cpositions=c( 0.02, 0.22, 0.4), fontsize= 0.8,refLabel= "reference",noDigits= 2)
+
+
+
+
+
+-------------------------------------------------------------------------------
+#back-up
+#choose cutpoint when facing difficulties categorize
+cutpoint1<-optimal.cutpoints(X="age",status = "outcome",tag.healthy = 0, 
+methods = c("Youden", "SpEqualSe"), data = survivaldata, categorical.cov = NULL, pop.prev = NULL,control = control.cutpoints(), ci.fit = TRUE)
+summary(cutpoint1)
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
