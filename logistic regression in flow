@@ -1,0 +1,310 @@
+library(haven)
+library(Cairo)  
+
+
+check_log2pre1=function(filename=NA,dependentvar=NA,testc=NA,cateYN=5,funlabel="mortality",
+                        digitsn=1,pngFile1="ng.png",pngFile2="cb.png",pngFile3="roc.png",
+                        docFile="log2pre.docx")
+{
+  #导入数据
+  data=read_sav(filename);
+  
+  
+  #查找因变量所在的列
+  dependentvarc=as.numeric(which(names(data)==dependentvar)) ;
+  
+  if(length(table(data[,dependentvarc]))!=2)return("因变量不是二分类变量，不能应用本方法进行统计分析");
+  if (is.numeric(cateYN)==0)return("所有分类变量中最多的类别数应该是数字") ;
+  if (cateYN<3)return("所有分类变量中最多的类别数不能小于3") ;
+  return("Y")
+}
+
+log2pre1=function(filename=NA,dependentvar=NA,testc=NA,cateYN=5,funlabel="mortality",
+                  digitsn=1,pngFile1="ng.png",pngFile2="cb.png",pngFile3="roc2.png",
+                  docFile="log2pre.docx")
+{
+  #导入数据
+  data=read_sav(filename);
+  library(rms)
+  library(tibble)
+  #查找因变量所在的列
+  dependentvarc=as.numeric(which(names(data)==dependentvar)) ;
+  
+  
+  
+  data1=data[,c(testc,dependentvarc)];    #需要定义分组变量的列数
+  data2=data1[complete.cases(data1),];
+  
+  nc=length(data2);
+  varname=names(data2)
+  
+  for (i in c(1:(nc-1))) {
+    if (length(table(data2[,i]))>2 & length(table(data2[,i]))<=cateYN){
+      data2[,i]=as.factor(data2[,i])
+    }
+    
+  }
+  
+  
+  
+  for (i in 1:(nc-1)){
+    if (i==1){
+      formulacc=paste(varname[nc]," ~ ",varname[1])
+    }
+    if (i>1){
+      formulacc=paste(formulacc,"+ ",varname[i],sep = "");
+    };
+  }
+  
+  
+  
+  logiout <- glm(formula(formulacc), family = binomial(link = 'logit'),data = data2)   
+  
+  sumlogiout<-summary(logiout);
+  
+  nr=length(sumlogiout$aliased )  #表格行数
+  
+  tabledata=as.data.frame(array(data2,dim=c(nr,7)));   #建立输出数据集，保证行足够使用
+  names(tabledata)=c("depentvar","indepentvar","B","SE","z","p","OR[95%CI]");#设置数据集变量名         
+  
+  
+  
+  
+  tabledata$depentvar[1]=dependentvar;
+  tabledata$indepentvar=names(sumlogiout$aliased);
+  tabledata$indepentvar[1]="constant";
+  tabledata$B=round(sumlogiout$coefficients[1:nr],digits=3)
+  tabledata$SE=round(sumlogiout$coefficients[(nr+1):(nr*2)],digits=3)
+  tabledata$z=round(sumlogiout$coefficients[(2*nr+1):(nr*3)],digits=3)
+  tabledata$p=round(sumlogiout$coefficients[(3*nr+1):(nr*4)],digits=3)
+  tabledata$`OR[95%CI]` =paste(round(exp(sumlogiout$coefficients[1:nr]),digits=digitsn),"[",
+                               round(exp(sumlogiout$coefficients[1:nr]-1.95997*sumlogiout$coefficients[(nr+1):(nr*2)]),digits=digitsn),",",
+                               round(exp(sumlogiout$coefficients[1:nr]+1.95997*sumlogiout$coefficients[(nr+1):(nr*2)]),digits=digitsn),"]",sep="");
+  tabledata$`OR[95%CI]`[1]=NA; 
+  
+  
+  
+  fit1<-lrm(formula(formulacc), data = data2, x = T, y = T) 
+  
+  
+  ddist <- datadist(data2)
+  options(datadist='ddist')
+  
+  nom1 <- nomogram(fit1, fun = plogis,fun.at = c(.001, .01, .05, 
+                                                 seq(.1,.9, by = .1), .95, .99, .999),
+                   lp = F, funlabel = funlabel)  
+  
+  
+  
+  
+  library(Cairo)  
+  #CairoPNG(pngFile1,width=1000,height=1000)
+  png(pngFile1,width=1000,height=1000)
+  plot(nom1, lplabel="Linear Predictor",
+       xfrac=.35,varname.label=TRUE, varname.label.sep="=", ia.space=.2, 
+       tck=NA, tcl=-0.20, lmgp=0.3,
+       points.label='Points', total.points.label='Total Points',
+       total.sep.page=FALSE, 
+       cap.labels=FALSE,cex.var = 1.6,cex.axis = 1.05,lwd=5,
+       label.every = 1,col.grid = gray(c(0.8, 0.95))) 
+  
+  dev.off()
+  
+  cal1 <- calibrate(fit1,cmethod = 'hare',method = "boot",B=1000)
+  
+  par(mar=c(8,5,3,cex=1.0))
+  plot(cal1,lwd=2,lty=2,cex.lab=1.8, cex.axis=1.5, cex.main=1.8, cex.sub=0.8,
+       xlab="Model predicted mortality(%)",ylab="Observed mortality(%)",
+       xlim=c(0,1),ylim=c(0,1)
+  )
+
+  lines(cal1, 
+        type = 'b', #连线的类型，可以是"p","b","o"
+        lwd = 4, #连线的粗细
+        pch = 18, #点的形状，可以是0-20
+        col = c("#2166AC")) #连线的颜色
+  
+  
+  #library(Cairo)  
+  #CairoPNG(pngFile2,width=1000,height=1000)
+  png(pngFile2,width=1000,height=1000)
+  par(mar=c(8,5,3,cex=1.0))
+  plot(cal1,lwd=2,lty=2,cex.lab=2.4, cex.axis=2, cex.main=2.4, cex.sub=1.2,
+       xlab="Model predicted mortality(%)",ylab="Observed mortality(%)",
+       errbar.col=c(rgb(0,118,192,maxColorValue = 255)),
+       xlim=c(0,1),ylim=c(0,1),
+       col=c(rgb(192,98,83,maxColorValue = 255)))
+  
+  lines(cal1, 
+        type = 'b', #连线的类型，可以是"p","b","o"
+        lwd = 4, #连线的粗细
+        pch = 18, #点的形状，可以是0-20
+        col = c("#2166AC")) #连线的颜色
+   #连线的颜色
+  
+  mtext("")
+  box(lwd = 2) #边框粗细
+  abline(0,1,lty = 3, #对角线为虚线
+         lwd = 2, #对角线的粗细
+         col = c("#224444")#对角线的颜色
+  ) 
+  dev.off()
+  
+  
+  #data2$predvalue <-predict.lm(fit1)
+  
+  library(pROC)# 载入pROC包
+  #roc2 <- roc(data2[,nc],data2$predvalue); 
+  #auc=round(roc2$auc,digits = 3);
+  #ci95=round(ci(roc2),digits = 3)
+  
+  glm.probs <- predict(logiout,data2,type="response")
+  data2$prob6 = glm.probs
+  
+  
+  par(pty="s")
+  roc2<- roc(death_whether~glm.probs, data=data2,
+             percent=FALSE,
+             partial.auc.focus="sens",
+             ci=TRUE,plot=TRUE,
+             auc.polygon=TRUE,auc.polygon.col="#cb231360",max.auc.polygon=TRUE, grid=TRUE,
+             print.auc=TRUE, show.thres=TRUE,legacy.axes=TRUE,col="#cb2313",lwd=3
+  )
+  legend("bottomright",legend=c("Logistic Regression"),col=c("#cb2313"),lwd=4)
+  
+  
+  par(pty="m")
+  
+ 
+  #CairoPNG(pngFile3,width=1000,height=1000)
+  png(pngFile3,width=1000,height=1000)
+  roc(death_whether~glm.probs, data=data2,
+      percent=FALSE,
+      partial.auc.focus="sens",
+      ci=TRUE,plot=TRUE,
+      auc.polygon=TRUE,auc.polygon.col="#cb231360",max.auc.polygon=TRUE, grid=TRUE,
+      print.auc=TRUE, show.thres=TRUE,legacy.axes=TRUE,col="#cb2313",lwd=3
+  )
+  dev.off()
+  
+  auc=round(roc2$auc,digits = 3);
+  ci95=round(ci(roc2),digits = 3)
+  
+  
+
+  
+  #library(ROCR)
+  #pred <- prediction(data2$predvalue, data2[,nc]) 
+  #perf<- performance(pred,"tpr","fpr")
+  #plot(perf)
+  #abline(0,1, col = 3, lty = 2)
+  #auc <- performance(pred,"auc")
+  #auc
+  
+  
+  
+  
+  
+  
+  
+  
+  #统计方法描述
+  tablemsg=paste("本研究采用R4.0.3 统计软件进行统计分析。应用lrm函数进行二元logistic回归分析，",
+                 "自变量为分类变量时，以最小值组作为参照组；自变量为连续变量时，直接将连续变量纳入二元logistic回归模型；",sep=""); 
+  tablemsg=paste(tablemsg,"变量筛选采用进入法,并制作列线图和校准曲线。",sep="");
+  tablemsg=paste(tablemsg,"使用pROC绘制ROC曲线，计算ROC曲线下面积AUC（即C index)为",ci95[2],
+                 "[",ci95[1],",",ci95[3],"]。",sep="");
+  
+  
+  
+  
+  library(flextable)  #制作三线表的函数
+  myft <- flextable(  #生成三线表
+    data = tabledata,     # data
+    #col_keys = names(dt[1:10,]),  # 要出现在表格中的列
+    cwidth = 0.75,      # 列宽，inch
+    cheight = 0.25,     # 列高，inch  
+    defaults = list(),  # 一些可选参数的列表，如 fontname, font.size, color and padding。
+    theme_fun = theme_booktabs    # 表格的主题
+  )
+  
+  library(officer)  #生成word文件
+  docx = read_docx()  #生成word
+  docx <- body_add(
+    docx, 
+    "表X  二元logistic回归多因素分析结果", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  docx <- body_add(
+    docx, 
+    "\n", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  
+  docx = body_add_flextable(
+    x = docx,
+    value = myft
+  )
+  docx <- body_add(
+    docx, 
+    "\n", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  docx <- body_add_img(
+    docx, 
+    src = pngFile1,
+    width=6, height=6)
+  docx <- body_add(
+    docx, 
+    "\n", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  docx <- body_add_img(
+    docx, 
+    src = pngFile2,
+    width=6, height=6)
+  docx <- body_add(
+    docx, 
+    "\n", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  docx <- body_add_img(
+    docx, 
+    src = pngFile3,
+    width=6, height=6)
+  docx <- body_add(
+    docx, 
+    "\n", # 内容
+    style = NULL  # 定义为一级标题
+  )
+  docx <- body_add(
+    docx, 
+    "统计分析方法及结果解释", 
+    style = "heading 1"
+  )
+  docx <- body_add(
+    docx, 
+    tablemsg, 
+    style = "Normal"
+  )
+  docx <- body_add(
+    docx, 
+    "科研客栈出品，如有需要请添加微信公众号'sciinn'。", 
+    style = "heading 1"
+  ) 
+  print(docx,docFile)     #输出wrod到默认目录下
+  
+  result=list("tabledata"=tabledata,"tablemsg"=tablemsg)
+  return(result);
+  
+}
+
+
+
+setwd("C:\\Users\\mjdee\\Desktop\\")
+
+
+log2pre1(filename="C:\\Users\\mjdee\\Desktop\\_DATA_2021-07-20_09(8.05)v3.0(1).sav",
+         dependentvar="death_whether",testc=c(8:14),cateYN=5,funlabel="mortality",
+         digitsn=1,pngFile1="ng.png",pngFile2="cb.png",pngFile3="roc2.png",
+         docFile="C:\\Users\\mjdee\\Desktop\\log2pre.docx")
